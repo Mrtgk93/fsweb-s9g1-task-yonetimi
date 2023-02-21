@@ -1,6 +1,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { nanoid } from "nanoid";
+import { toast } from "react-toastify";
 
 export default function TaskHookForm(props) {
   const { kisiler, submitFn } = props;
@@ -12,10 +13,12 @@ export default function TaskHookForm(props) {
     handleSubmit,
   } = useForm({
     mode: "onChange",
+    defaultValues: { title: "", description: "", people: [] },
   });
 
   const onSubmit = (data) => {
     console.log(data);
+    toast(`${data.title} görevi eklendi`);
     reset();
     submitFn({
       ...data,
@@ -78,8 +81,11 @@ export default function TaskHookForm(props) {
                   name="people"
                   value={p}
                   {...register("people", {
-                    required: "1 kişi sec",
-                    max: { value: 3, message: "en fazla 3 kişi seç" },
+                    required: "en az 1 kişi seç",
+                    validate: {
+                      maxKisi: (kisiler) =>
+                        kisiler.length <= 3 || "lütfen en fazla 3 kişi seçin",
+                    },
                   })}
                 />
                 {p}

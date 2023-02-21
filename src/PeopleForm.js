@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 
 const PeopleForm = ({ kisiler, submitFn }) => {
   const [isim, setIsim] = useState("");
@@ -6,11 +7,11 @@ const PeopleForm = ({ kisiler, submitFn }) => {
 
   useEffect(() => {
     if (kisiler.includes(isim)) {
-      setError("Bu isim daha önce eklenmiş")
+      setError("Bu isim daha önce eklenmiş");
     } else {
-      setError(null)
+      setError(null);
     }
-  }, [isim, kisiler])
+  }, [isim, kisiler]);
 
   function handleIsimChange(e) {
     setIsim(e.target.value);
@@ -20,6 +21,7 @@ const PeopleForm = ({ kisiler, submitFn }) => {
     e.preventDefault();
     submitFn(isim);
     setIsim("");
+    toast(`${isim} kişisi eklendi`);
   }
 
   return (

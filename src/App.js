@@ -5,6 +5,7 @@ import TaskForm from "./TaskForm";
 import TaskHookForm from "./TaskHookForm";
 import PeopleForm from "./PeopleForm";
 import { initialTasks, initialTeam } from "./data";
+import { toast } from "react-toastify";
 
 function App() {
   const [tasks, setTasks] = useState(initialTasks);
@@ -19,7 +20,11 @@ function App() {
   }
 
   function handleComplete(id) {
-    console.log("tamamlama fonksiyonunu buraya yazın");
+    toast(`${id}'li görev tamamlandı`);
+    const newTaskList = [...tasks];
+    newTaskList.find((item) => item.id === id).status = "yapıldı";
+
+    setTasks(newTaskList);
   }
 
   return (
